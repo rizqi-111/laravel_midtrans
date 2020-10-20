@@ -6,10 +6,30 @@ use Illuminate\Http\Request;
 use App\Order;
 use Str;
 use GuzzleHttp\Client;
+use Midtrans;
 
 class PaymentController extends Controller
 {
     //
+    public function generate(Request $request){
+        // Set your Merchant Server Key
+        Midtrans\Config::$serverKey = config('app.midtrans.server_key');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        Midtrans\Config::$is3ds = true;
+
+        $midtrans_transaction = Midtrans\Snap::createTransaction($request->data);
+
+        return response()->json([
+            'response_code' => '00',
+            'response_msg' => 'success',
+            'data' => $midtrans_transaction
+         ]);
+    }
+
     public function store(Request $request){
          $order = Order::create([
             'amount' => $request->amount,

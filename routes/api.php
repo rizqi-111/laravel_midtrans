@@ -18,3 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('payment/store','PaymentController@store');
+Route::post('/generate','PaymentController@generate');
