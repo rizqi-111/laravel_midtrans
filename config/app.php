@@ -13,6 +13,11 @@ return [
     |
     */
 
+    'midtrans' => [
+        'server_key' => env('MIDTRANS_SERVER_KEY',null),
+        'base_uri' => env('MIDTRANS_BASE_URI',null)
+    ],
+
     'name' => env('APP_NAME', 'Laravel'),
 
     /*
